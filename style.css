@@ -33,6 +33,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 20px;
 }
 
 .gamePad .grid{
@@ -117,4 +118,33 @@ body{
     border-radius: 50%;
     border: 10px solid var(--primary-text);
     content: "";
+}
+
+#padTitle{
+    font-size: 2.5rem;
+}
+
+#blocker{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #1D293Da0;
+    z-index: 10;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#resetButton{
+    padding: 10px 20px;
+    background: var(--primary-button);
+    border: none;
+    border-radius: 5px;
+    color: var(--primary-text);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.winning_cell{
+    background: #16a34a;
 }
