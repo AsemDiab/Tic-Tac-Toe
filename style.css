@@ -1,0 +1,120 @@
+*{
+    --card-background:#1D293D;
+    --secondary-background:#172032;
+    --input-background:#334155;
+    --background:#0F172A;
+    --primary-text:#f8f8f8;
+    --primary-button:#3B82F6;
+    --border:#334155b5;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: var(--primary-text)
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background);
+    width: 100vw;
+    height: 100vh;
+
+    padding: 50px 20px 100px;
+ 
+}
+
+.gamePad{
+     width: 100%;
+    max-width: 640px;
+    height: auto;
+    background: var(--secondary-background);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gamePad .grid{
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    max-height: 400px;
+    aspect-ratio: 1/1;
+
+    background: var(--card-background);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0px;
+
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+
+}
+.cell{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    max-width: 100px;
+    max-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: var(--input-background);
+    border: 1px solid var(--border);
+    position: relative;
+  
+}
+
+.cell:hover{
+    background: var(--border);
+}
+
+
+.playersBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+.player{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.x_cell::after{
+    width: 100%;
+    height: 10px;
+    background: var(--primary-text);
+    content: "";
+    transform: rotate(45deg);
+    position: absolute;
+    border-radius: 5px;
+
+}
+
+.x_cell::before{
+    width: 100%;
+    height: 10px;
+    background: var(--primary-text);
+    content: "";
+    transform: rotate(-45deg);
+    position: absolute;
+    border-radius: 5px;
+}
+
+.o_cell::after{
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    border: 10px solid var(--primary-text);
+    content: "";
+}
