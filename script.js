@@ -32,6 +32,8 @@ var Tic_Tac_Toe = /** @class */ (function () {
             cell.addEventListener("click", function () {
                 if (_this.gameState !== "playing")
                     return;
+                if (_this.board[row][col] !== "")
+                    return;
                 _this.turns++;
                 _this.board[row][col] = _this.currentPlayer;
                 cell.classList.add(_this.currentPlayer.toLowerCase() + "_cell");

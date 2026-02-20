@@ -41,6 +41,7 @@ class Tic_Tac_Toe {
       const col = i % 3;
       cell.addEventListener("click", () => {
         if (this.gameState !== "playing") return;
+        if (this.board[row][col] !== "") return;
 
         this.turns++;
         this.board[row][col] = this.currentPlayer;
