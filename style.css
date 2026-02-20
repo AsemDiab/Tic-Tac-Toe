@@ -71,9 +71,7 @@ body{
   
 }
 
-.cell:hover{
-    background: var(--border);
-}
+
 
 
 .playersBar{
@@ -159,3 +157,10 @@ body{
     display: none;
     border-radius: 5px;
 }   
+
+
+@media (min-width: 600px) {
+    .cell:hover{
+    background: var(--border);
+}
+}
