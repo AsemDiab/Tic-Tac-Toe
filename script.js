@@ -70,13 +70,16 @@ var Tic_Tac_Toe = /** @class */ (function () {
     };
     Tic_Tac_Toe.prototype.isthereawinner = function (lastMove) {
         // Check rows
+        var cells = [];
         if (this.board[lastMove.row].every(function (cell) { return cell === lastMove.player; })) {
             this.board[lastMove.row].forEach(function (_, colIndex) {
                 var cell = document.getElementById("cell-".concat(lastMove.row * 3 + colIndex));
                 if (cell) {
                     cell.classList.add("winning_cell");
+                    cells.push(cell);
                 }
             });
+            drawLine(cells);
             return true;
         }
         // Check columns
@@ -85,8 +88,10 @@ var Tic_Tac_Toe = /** @class */ (function () {
                 var cell = document.getElementById("cell-".concat(rowIndex * 3 + lastMove.col));
                 if (cell) {
                     cell.classList.add("winning_cell");
+                    cells.push(cell);
                 }
             }
+            drawLine(cells);
             return true;
         }
         // Check diagonals
@@ -98,8 +103,10 @@ var Tic_Tac_Toe = /** @class */ (function () {
                 var cell = document.getElementById("cell-".concat(index * 3 + index));
                 if (cell) {
                     cell.classList.add("winning_cell");
+                    cells.push(cell);
                 }
             });
+            drawLine(cells);
             return true;
         }
         if (lastMove.row + lastMove.col === 2 &&
@@ -110,14 +117,20 @@ var Tic_Tac_Toe = /** @class */ (function () {
                 var cell = document.getElementById("cell-".concat(index * 3 + (2 - index)));
                 if (cell) {
                     cell.classList.add("winning_cell");
+                    cells.push(cell);
                 }
             });
+            drawLine(cells);
             return true;
         }
         return false;
     };
     Tic_Tac_Toe.prototype.resetGame = function () {
         this.turns = 0;
+        var strok = document.querySelector("#storke-line");
+        if (strok) {
+            strok.style.display = "none";
+        }
         this.board = [
             ["", "", ""],
             ["", "", ""],

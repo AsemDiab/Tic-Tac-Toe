@@ -81,15 +81,20 @@ class Tic_Tac_Toe {
 
   isthereawinner(lastMove: Move): boolean {
     // Check rows
+    const cells: HTMLDivElement[] = [];
     if (this.board[lastMove.row].every((cell) => cell === lastMove.player)) {
       this.board[lastMove.row].forEach((_, colIndex) => {
         const cell = document.getElementById(
           `cell-${lastMove.row * 3 + colIndex}`,
-        );
+        ) as HTMLDivElement | null;
         if (cell) {
           cell.classList.add("winning_cell");
+          cells.push(cell);
         }
       });
+
+      drawLine(cells);
+
       return true;
     }
     // Check columns
@@ -97,11 +102,14 @@ class Tic_Tac_Toe {
       for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
         const cell = document.getElementById(
           `cell-${rowIndex * 3 + lastMove.col}`,
-        );
+        ) as HTMLDivElement | null;
         if (cell) {
           cell.classList.add("winning_cell");
+          cells.push(cell);
         }
       }
+      drawLine(cells);
+
       return true;
     }
     // Check diagonals
@@ -112,11 +120,16 @@ class Tic_Tac_Toe {
       this.board[2][2] === lastMove.player
     ) {
       this.board.forEach((_, index) => {
-        const cell = document.getElementById(`cell-${index * 3 + index}`);
+        const cell = document.getElementById(
+          `cell-${index * 3 + index}`,
+        ) as HTMLDivElement | null;
         if (cell) {
           cell.classList.add("winning_cell");
+          cells.push(cell);
         }
       });
+      drawLine(cells);
+
       return true;
     }
     if (
@@ -126,11 +139,16 @@ class Tic_Tac_Toe {
       this.board[2][0] === lastMove.player
     ) {
       this.board.forEach((_, index) => {
-        const cell = document.getElementById(`cell-${index * 3 + (2 - index)}`);
+        const cell = document.getElementById(
+          `cell-${index * 3 + (2 - index)}`,
+        ) as HTMLDivElement | null;
         if (cell) {
           cell.classList.add("winning_cell");
+          cells.push(cell);
         }
       });
+      drawLine(cells);
+
       return true;
     }
     return false;
@@ -138,6 +156,13 @@ class Tic_Tac_Toe {
 
   resetGame() {
     this.turns = 0;
+    const strok = document.querySelector(
+      "#storke-line",
+    ) as HTMLDivElement | null;
+    if (strok) {
+      strok.style.display = "none";
+    }
+
     this.board = [
       ["", "", ""],
       ["", "", ""],
