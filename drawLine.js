@@ -2,9 +2,6 @@ function drawLine(cells) {
     var elem = cells[0];
     var elem1 = cells[1];
     var elem2 = cells[2];
-    console.log(elem);
-    console.log(elem1);
-    console.log(elem2);
     var slope = (elem2.offsetTop - elem.offsetTop) / (elem2.offsetLeft - elem.offsetLeft);
     var strok = document.querySelector("#storke-line");
     var rect = {
@@ -25,17 +22,29 @@ function drawLine(cells) {
         width: elem1.offsetWidth,
         height: elem1.offsetHeight,
     };
-    strok.style.width =
-        Math.sqrt(Math.pow(rect2.x - rect.x, 2) + Math.pow(rect2.y - rect.y, 2)) +
-            rect.width / 2 +
-            "px";
-    strok.style.top = rect1.y + rect1.height / 2 - 5 + "px";
-    strok.style.left =
-        rect1.x + rect1.width / 2 - parseInt(strok.style.width) / 2 + "px";
-    console.log("slope: ".concat(slope, " width: ").concat(strok.style.width, " top: ").concat(strok.style.top, " left: ").concat(strok.style.left));
+    var width = Math.sqrt(Math.pow(rect2.x - rect.x, 2) + Math.pow(rect2.y - rect.y, 2)) +
+        rect.width / 2; //+"px";
+    var first_center = {
+        x: rect.x + rect.width / 2,
+        y: rect.y + rect.height / 2,
+    };
+    var last_center = {
+        x: rect1.x + rect1.width / 2,
+        y: rect1.y + rect1.height / 2,
+    };
     var angle = Math.atan(slope) * (180 / Math.PI);
     strok.style.transform = "rotate(".concat(angle, "deg)");
     strok.style.display = "block";
-    console.log(cells);
-    console.log("line drawn");
+    var steps = 50; // Duration of the animation in milliseconds
+    var _loop_1 = function (i) {
+        setTimeout(function () {
+            strok.style.width = Math.min((i * width) / steps, width) + "px";
+            strok.style.top = rect1.y + rect1.height / 2 - 5 + "px";
+            strok.style.left =
+                rect1.x + rect1.width / 2 - parseInt(strok.style.width) / 2 + "px";
+        }, i * 10);
+    };
+    for (var i = 0; i < steps + 1; i++) {
+        _loop_1(i);
+    }
 }
