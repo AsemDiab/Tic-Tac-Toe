@@ -205,6 +205,10 @@ class UIManager {
           ) {
             logicManager.gameState = "draw";
           }
+
+          if (logicManager.gameState !== "playing") {
+            this.BlockerElement?.style.setProperty("display", "flex");
+          }
           this.updateTitle(logicManager.gameState);
         });
       });

@@ -123,6 +123,7 @@ var UIManager = /** @class */ (function () {
                 ++i;
                 console.log("Initializing cell: Row ".concat(rowindex, ", Col ").concat(col));
                 cell.addEventListener("click", function () {
+                    var _a;
                     var logicManager = LogicManager.createNewGame();
                     // Handle cell click
                     console.log("Cell clicked: Row ".concat(rowindex, ", Col ").concat(col));
@@ -160,6 +161,9 @@ var UIManager = /** @class */ (function () {
                     if (logicManager.getturns() === 9 &&
                         logicManager.gameState === "playing") {
                         logicManager.gameState = "draw";
+                    }
+                    if (logicManager.gameState !== "playing") {
+                        (_a = _this.BlockerElement) === null || _a === void 0 ? void 0 : _a.style.setProperty("display", "flex");
                     }
                     _this.updateTitle(logicManager.gameState);
                 });
