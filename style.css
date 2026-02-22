@@ -79,7 +79,7 @@ body{
     align-items: center;
     cursor: pointer;
     background: var(--input-background);
-    border: 1px solid var(--border);
+    border: 1px solid var(--card-background);
     position: relative;
   
 }
@@ -182,7 +182,11 @@ body{
     position: absolute;
     /* width: 80%; */
     height: 10px;
-    background: black;
+    background: #f8f8ff;
+     box-shadow:
+    0 0 10px #f5fffa,
+    inset 0 0 15px #f0fff0;
+
     content: "";
     z-index: 5;
     display: none;
@@ -191,7 +195,7 @@ body{
 
 
 @media (min-width: 600px) {
-    .cell:hover{
+    .cell:hover&&:not(.x_cell):not(.o_cell){
     background: var(--border);
 }
 }
