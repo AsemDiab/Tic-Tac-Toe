@@ -1,4 +1,4 @@
-function drawLine(cells: HTMLDivElement[]) {
+export function drawLine(cells: HTMLDivElement[]) {
   let elem: HTMLDivElement = cells[0];
   let elem1: HTMLDivElement = cells[1];
   let elem2: HTMLDivElement = cells[2];
