@@ -204,19 +204,24 @@ var UIManager = /** @class */ (function () {
         (_b = this.StorkeElement) === null || _b === void 0 ? void 0 : _b.style.setProperty("display", "block");
     };
     UIManager.prototype.updateTitle = function (gameState) {
+        var logicManager = LogicManager.createNewGame();
+        var turns = logicManager.getturns();
         if (this.TitleElement) {
             switch (gameState) {
                 case "X wins":
-                    this.TitleElement.textContent = "X wins!";
+                    this.TitleElement.textContent = "".concat(player1.name, " wins!");
                     break;
                 case "O wins":
-                    this.TitleElement.textContent = "O wins!";
+                    this.TitleElement.textContent = "".concat(player2.name, " wins!");
                     break;
                 case "draw":
                     this.TitleElement.textContent = "It's a draw!";
                     break;
                 default:
-                    this.TitleElement.textContent = "Tic Tac Toe";
+                    this.TitleElement.textContent =
+                        turns % 2 === 0
+                            ? "".concat(player1.name, "'s turn")
+                            : "".concat(player2.name, "'s turn");
             }
         }
     };
@@ -259,3 +264,40 @@ var Game = /** @class */ (function () {
     return Game;
 }());
 var game = new Game();
+function updatePlayerInfo(player, playerNumber) {
+    var playerElement = document.getElementById("player".concat(playerNumber));
+    if (playerElement) {
+        var nameElement = playerElement.querySelector("h2");
+        if (nameElement) {
+            nameElement.childNodes[0].textContent = player.name;
+        }
+    }
+}
+function buildForm(player, playerNumber) {
+    console.log("   Building form for player", playerNumber, player);
+    var form = document.createElement("form");
+    form.classList.add("playerForm");
+    form.innerHTML = "\n    <label for=\"name".concat(playerNumber, "\">Name:</label>\n    <input type=\"text\" id=\"name").concat(playerNumber, "\" name=\"name").concat(playerNumber, "\" value=\"").concat(player.name, "\">\n    <div style=\"margin-top: 10px;\" class=\"formButtons\">\n    <button type=\"submit\" class=\"saveButton\">Save</button>\n    <button type=\"button\" class=\"cancelButton\">Cancel</button>\n  </div>\n    ");
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var nameInput = form.querySelector("#name".concat(playerNumber));
+        console.log("   Saving form for player", playerNumber, "with name", nameInput.value);
+        player.name = nameInput.value;
+        form.remove();
+        updatePlayerInfo(player, playerNumber);
+    });
+    form.addEventListener("click", function (e) {
+        if (e.target.classList.contains("cancelButton")) {
+            form.remove();
+        }
+    });
+    return form;
+}
+document.querySelectorAll(".editButton").forEach(function (button, index) {
+    button.addEventListener("click", function () {
+        var _a;
+        var player = index === 0 ? player1 : player2;
+        var form = buildForm(player, index + 1);
+        (_a = document.querySelector(".gamePad")) === null || _a === void 0 ? void 0 : _a.appendChild(form);
+    });
+});

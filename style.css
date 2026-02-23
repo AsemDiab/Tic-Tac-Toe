@@ -191,11 +191,87 @@ body{
     z-index: 5;
     display: none;
     border-radius: 5px;
-}   
+} 
 
 
+.editButton{
+ width: 18px;
+    height: 18px;
+    background: url('edit1.png') no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+}
+
+.editButton:hover{
+    filter: brightness(1.2);
+
+}
+
+.player h2{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 @media (min-width: 600px) {
     .cell:hover&&:not(.x_cell):not(.o_cell){
     background: var(--border);
 }
+}
+
+.playerForm{
+    position: absolute;
+    background: var(--secondary-background);
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 15;
+    top: 50%;
+}
+
+.playerForm input{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: var(--input-background);
+    color: var(--primary-text);
+    
+}
+
+.saveButton{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 40%;
+    background: var(--primary-button);
+    color: var(--primary-text);
+    cursor: pointer;
+}
+
+
+.formButtons{
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.formButtons button:hover{
+    filter: brightness(1.2);
+}
+
+.cancelButton{
+    background: transparent;
+    color: var(--primary-text);
+    border: 2px solid var(--input-background);
+    padding: 10px;
+    border-radius: 5px;
+    width: 40%;
+    cursor: pointer;
+}
+
+.cancelButton:hover{
+    background: var(--input-background);
+    border-color: var(--primary-button);
 }
