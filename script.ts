@@ -1,3 +1,4 @@
+import { drawLine } from "./drawLine.mts";
 type Move = {
   row: number;
   col: number;
@@ -159,14 +160,10 @@ class UIManager {
         const col = i % 3;
 
         ++i;
-        console.log(`Initializing cell: Row ${rowindex}, Col ${col}`);
 
         cell.addEventListener("click", () => {
           const logicManager = LogicManager.createNewGame();
-          // Handle cell click
 
-          console.log(`Cell clicked: Row ${rowindex}, Col ${col}`);
-          console.log(logicManager.board);
           if (logicManager.gameState !== "playing") return;
           if (logicManager.board[rowindex][col] !== "") return;
           logicManager.board[rowindex][col] = logicManager.currentPlayer;
@@ -293,11 +290,23 @@ class UIManager {
     }
 
     if (this.TitleElement) {
-      this.TitleElement.textContent = "Tic Tac Toe";
+      this.TitleElement.textContent = `${player1.name}'s turn`;
     }
 
     if (this.StorkeElement) {
       this.StorkeElement.style.display = "none";
+    }
+  }
+
+  updatePlayerInfo(player: Player, playerNumber: number) {
+    const playerElement = document.getElementById(
+      `player${playerNumber}`,
+    ) as HTMLDivElement | null;
+    if (playerElement) {
+      const nameElement = playerElement.querySelector("h2");
+      if (nameElement) {
+        nameElement.childNodes[0].textContent = player.name;
+      }
     }
   }
 }
@@ -307,26 +316,20 @@ class Game {
     const uiManager = UIManager.getInstance();
     uiManager.inlizializeEvent();
     uiManager.initalizeResetButton();
+    document.querySelectorAll(".editButton").forEach((button, index) => {
+      button.addEventListener("click", () => {
+        const player = index === 0 ? player1 : player2;
+        const form = this.buildForm(player, index + 1);
+        document.body.appendChild(form);
+      });
+    });
+    uiManager.updateTitle(logicManager.gameState);
   }
-}
-const game = new Game();
 
-function updatePlayerInfo(player: Player, playerNumber: number) {
-  const playerElement = document.getElementById(
-    `player${playerNumber}`,
-  ) as HTMLDivElement | null;
-  if (playerElement) {
-    const nameElement = playerElement.querySelector("h2");
-    if (nameElement) {
-      nameElement.childNodes[0].textContent = player.name;
-    }
-  }
-}
-function buildForm(player: Player, playerNumber: number) {
-  console.log("   Building form for player", playerNumber, player);
-  const form = document.createElement("form");
-  form.classList.add("playerForm");
-  form.innerHTML = `
+  buildForm(player: Player, playerNumber: number): HTMLFormElement {
+    const form = document.createElement("form");
+    form.classList.add("playerForm");
+    form.innerHTML = `
     <label for="name${playerNumber}">Name:</label>
     <input type="text" id="name${playerNumber}" name="name${playerNumber}" value="${player.name}">
     <div style="margin-top: 10px;" class="formButtons">
@@ -334,33 +337,25 @@ function buildForm(player: Player, playerNumber: number) {
     <button type="button" class="cancelButton">Cancel</button>
   </div>
     `;
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nameInput = form.querySelector(
-      `#name${playerNumber}`,
-    ) as HTMLInputElement;
-    console.log(
-      "   Saving form for player",
-      playerNumber,
-      "with name",
-      nameInput.value,
-    );
-    player.name = nameInput.value;
-    form.remove();
-    updatePlayerInfo(player, playerNumber);
-  });
-  form.addEventListener("click", (e) => {
-    if ((e.target as HTMLElement).classList.contains("cancelButton")) {
-      form.remove();
-    }
-  });
-  return form;
-}
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nameInput = form.querySelector(
+        `#name${playerNumber}`,
+      ) as HTMLInputElement;
 
-document.querySelectorAll(".editButton").forEach((button, index) => {
-  button.addEventListener("click", () => {
-    const player = index === 0 ? player1 : player2;
-    const form = buildForm(player, index + 1);
-    document.querySelector(".gamePad")?.appendChild(form);
-  });
-});
+      player.name = nameInput.value;
+      form.remove();
+      UIManager.getInstance().updatePlayerInfo(player, playerNumber);
+      UIManager.getInstance().updateTitle(
+        LogicManager.createNewGame().gameState,
+      );
+    });
+    form.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).classList.contains("cancelButton")) {
+        form.remove();
+      }
+    });
+    return form;
+  }
+}
+const game = new Game();
